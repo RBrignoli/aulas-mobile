@@ -80,7 +80,6 @@ export default Pokemon = () => {
     const [pokeImg, setPokeImg] = useState('')
     const [opponent, setOpponent] = useState('')
     const [opponentImg, setOpponentImg] = useState('')
-
     const [isModalOpen, setIsModalOpen] = useState('')
 
     useEffect(() => {
