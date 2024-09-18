@@ -1,12 +1,9 @@
-import { Text, Touchable, View } from 'react-native'
+import { Text, View } from 'react-native'
 import { Link } from 'expo-router'
-
-
-
 export default telaInicio = () => {
     return (
         <View>
-            <Link href='/bank'>
+            <Link href='/banco'>
                 <Text>Exercicio banco</Text>
             </Link>
             <Link href='/calculadora'>

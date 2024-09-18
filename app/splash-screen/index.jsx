@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Image } from 'react-native'
+import { View, StyleSheet, Image, Text } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 
 const style = StyleSheet.create({
@@ -22,9 +22,7 @@ const splashScreen = function () {
         style={style.container}>
             <Image
                 style={style.logo}
-                source={{
-                    uri: logoIst,
-                }}
+                source={require('../../assets/images/istepos.jpg')} 
             />
             <Text>qualquer coisa</Text>
     </LinearGradient>
