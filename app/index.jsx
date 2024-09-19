@@ -19,9 +19,10 @@ export default telaInicio = () => {
                 <Text>Exercicio login</Text>
             </Link>
             <Link href='/pokemon'>
-                <Touchable>
-                    <Text>Exercicio pokemon</Text>
-                </Touchable>
+                <Text>Exercicio pokemon</Text>
+            </Link>
+            <Link href='/sobre-mim'>
+                <Text>Exercicio App sobre mim</Text>
             </Link>
         </View>
     )
