@@ -1,7 +1,6 @@
 import { createContext, useState } from "react";
 
 export const AppContext = createContext()
-
 export const AppProvider = ({ children }) => {
     const [teste, setTeste] = useState('')
     const [detail, setDetail] = useState({})

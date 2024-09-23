@@ -2,14 +2,8 @@ import React from 'react';
 import { View, Text, Button, Image, StyleSheet } from 'react-native';
 import { Link } from 'expo-router';
 import Header from '../../components/header';
-import { AppContext } from '../../scripts/appContext';
-import { useContext } from 'react';
 
 const TelaInicio = () => {
-
-    const { teste, setTeste } = useContext(AppContext)
-    setTeste('abcde')
-
     return (
         <View style={styles.container}>
             <Header title="Sobre Mim" voltarPara="./" />

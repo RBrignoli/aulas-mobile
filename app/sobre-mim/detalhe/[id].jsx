@@ -1,27 +1,26 @@
 
 import { View, Text, StyleSheet, Image, Button } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+// import { useLocalSearchParams } from 'expo-router';
 import { AppContext } from '../../../scripts/appContext';
 import { useContext } from 'react';
 
 export default Detalhe = () => {
-  const { id, item } = useLocalSearchParams()
-  parsed_item = JSON.parse(item)
+  // const { id, item } = useLocalSearchParams()
+  // detail = JSON.parse(item)
   const {teste, setTeste} = useContext(AppContext)
   const {detail, setDetail} = useContext(AppContext)
-
-  console.log(teste)
   console.log(detail)
+
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{parsed_item.title}</Text>
+      <Text style={styles.title}>{detail.title}</Text>
       <Image
-        source={{ uri: parsed_item.image }}
+        source={{ uri: detail.image }}
         style={styles.image}
       />
-      <Text style={styles.detalhe}>{parsed_item.detalhe}</Text>
-      <Text style={styles.year}>{parsed_item.year}</Text>
+      <Text style={styles.detalhe}>{detail.detalhe}</Text>
+      <Text style={styles.year}>{detail.year}</Text>
     </View>
   );
 }

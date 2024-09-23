@@ -4,7 +4,6 @@ import { Link } from 'expo-router'
 import { AppContext } from '../../../scripts/appContext';
 import { useContext } from 'react';
 
-
 const viagens = [
   { detalhe: 'Buenos Aires é a capital cosmopolita da Argentina. Seu centro é a Praça de Maio, com imponentes edifícios do século 19, como a Casa Rosada, o emblemático palácio presidencial com sacadas. Outras importantes atrações são o Teatro Colón, uma casa de ópera inaugurada em 1908 com cerca de 2.500 lugares, e o moderno museu MALBA, com sua coleção de arte latino-americana.', id: '1', title: 'Buenos Aires', year: 2023, image: 'https://static.nationalgeographicbrasil.com/files/styles/image_3200/public/argentinalead.jpg?w=1600&h=900' },
   { detalhe: 'O Rio de Janeiro é uma grande cidade brasileira à beira-mar, famosa pelas praias de Copacabana e Ipanema, pela estátua de 38 metros de altura do Cristo Redentor, no topo do Corcovado, e pelo Pão de Açúcar, um pico de granito com teleféricos até seu cume. A cidade também é conhecida pelas grandes favelas. O empolgante Carnaval, com carros alegóricos, fantasias extravagantes e sambistas, é considerado o maior do mundo.', id: '2', title: 'Rio de janeiro', year: 2022, image: 'https://static.mundoeducacao.uol.com.br/mundoeducacao/2021/03/1-cristo-redentor.jpg' },
@@ -21,7 +20,8 @@ const TelaViagens = () => {
           data={viagens}
           renderItem={({ item }) => (
             <View style={styles.card}>
-              <Link href={{pathname:`/sobre-mim/detalhe/${item.id}`, params:{'item': JSON.stringify(item)}}}>
+              {/* <Link href={{pathname:`/sobre-mim/detalhe/${item.id}`, params:{'item': JSON.stringify(item)}}}> */}
+              <Link href={{pathname:`/sobre-mim/detalhe/${item.id}`}}>
                   <Image source={{ uri: item.image }} style={styles.image} onPress={setDetail(item)} />
               </Link>
               <Text style={styles.title}>{item.title} - {item.year}</Text>
