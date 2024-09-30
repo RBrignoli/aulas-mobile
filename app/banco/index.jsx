@@ -22,7 +22,6 @@ const style = StyleSheet.create({
     inputText: {
         fontSize: 14,
         alignItems: 'center',
-        fontFamily: 'Arial',
         fontWeight: 'bold'
     },
     saldoNumber: {

@@ -24,6 +24,16 @@ export default telaInicio = () => {
             <Link href='/sobre-mim'>
                 <Text>Exercicio App sobre mim</Text>
             </Link>
+            <Link href='/fotografia'>
+                <Text>Exercicio sobre Hardware: Galeria</Text>
+            </Link>
+            <Link href='/camera'>
+                <Text>Exercicio sobre Hardware: Camera</Text>
+            </Link>
+            
+            <Link href='/leitor-qr'>
+                <Text>Exercicio sobre Hardware: LeitorQR</Text>
+            </Link>
         </View>
     )
 }
