@@ -10,11 +10,6 @@ export default function App() {
     const cameraRef = useRef(null);
 
 
-    if (!permission) {
-        // Camera permissions are still loading.
-        return <View />;
-    }
-
     if (!permission.granted) {
         // Camera permissions are not granted yet.
         return (
@@ -24,7 +19,6 @@ export default function App() {
             </View>
         );
     }
-    console.log(cameraRef.current)
 
     function toggleCameraFacing() {
         setFacing(facing === 'back' ? 'front' : 'back');
