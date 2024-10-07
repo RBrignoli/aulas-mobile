@@ -1,101 +1,77 @@
-import { CameraView, CameraProps, useCameraPermissions } from "expo-camera";
-import { useState, useRef } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import { useState, useRef } from 'react'
+import { View, StyleSheet, Text, Image, Button } from 'react-native'
+import { CameraView, useCameraPermissions } from 'expo-camera'
+import * as MediaLibrary from 'expo-media-library'
 
-export default function App() {
-    const [facing, setFacing] = useState('back');
-    const [permission, requestPermission] = useCameraPermissions();
-    const [photo, setPhoto] = useState(null);
-    const [showThumbnail, setShowThumbnail] = useState(false);
-    const cameraRef = useRef(null);
+export default function Camera() {
+    const [permissao, pedirPermissao] = useCameraPermissions()
+    const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
+    const [foto, setFoto] = useState(null)
+    const cameraRef = useRef(null)
+    const [lado, setLado] = useState('back')
 
-
-    if (!permission.granted) {
-        // Camera permissions are not granted yet.
+    if (!permissao) {
+        return <View></View>
+    }
+    if (!permissao.granted) {
         return (
             <View style={styles.container}>
-                <Text style={styles.message}>We need your permission to show the camera</Text>
-                <Button onPress={requestPermission} title="grant permission" />
+                <Text style={styles.textoPermissao}>Voce precisa pedir a permissao para usar a camera</Text>
+                <Button title='Pedir Permissao' onPress={pedirPermissao} />
             </View>
-        );
-    }
-
-    function toggleCameraFacing() {
-        setFacing(facing === 'back' ? 'front' : 'back');
+        )
     }
     const tirarFoto = async () => {
-        const photo = await cameraRef.current?.takePictureAsync({
+        const foto_base64 = await cameraRef.current?.takePictureAsync({
             quality: 0.5,
-            base64: true,
-        });
-        setPhoto(photo);
-        setShowThumbnail(true);
-    };
-
-    const savePhoto = async () => {
-        console.log('salvar foto')
+            base64: true
+        })
+        setFoto(foto_base64)
     }
+    const trocaCamera = () => {
+        setLado(lado == 'back' ? 'front' : 'back' )
+    }
+    const salvarFoto = async () => {
+        if(permissionResponse.status !== 'granted'){
+            await requestPermission();
+        }
+        MediaLibrary.saveToLibraryAsync(foto.uri)
+        setFoto(null)
+        
+    }
+
 
     return (
         <View style={styles.container}>
-            {showThumbnail ?
+            {foto ?
                 <View>
-                    <Image source={{ uri: photo.uri }} style={{ width: '100%', height: '100%' }} />
-                    <View style={styles.saveContainer}>
-                        <TouchableOpacity onPress={savePhoto} style={styles.button}>
-                            <Text style={styles.text}>Salvar foto</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => setShowThumbnail(false)} style={styles.button}>
-                            <Text style={styles.text}>Cancelar</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                :
-                <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
-                            <Text style={styles.text}>Inverter Camera</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.button} onPress={tirarFoto}>
-                            <Text style={styles.text}>tirar Foto</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <Image source={{ uri: foto.uri }} style={styles.foto} />
+                    <Button title='Descartar foto' onPress={() => setFoto(null)}/>
+                    <Button title='Salvar Foto' onPress={salvarFoto}/>
+                </View> :
+                <CameraView facing={lado} style={styles.camera} ref={cameraRef}>
+                    <Button title='Tirar Foto' onPress={tirarFoto} />
+                    <Button title='Troca camera' onPress={trocaCamera} />
                 </CameraView>
             }
         </View>
-    );
+    )
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
-    message: {
+    textoPermissao: {
         textAlign: 'center',
-        paddingBottom: 10,
     },
     camera: {
-        flex: 1,
+        flex: 1
     },
-    buttonContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        backgroundColor: 'transparent',
-        margin: 64,
-    },
-    button: {
-        flex: 1,
-        alignSelf: 'flex-end',
-        alignItems: 'center',
-    },
-    text: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: 'white',
-    },
-    saveContainer: {
-        position: 'absolute',
-        justifyContent:'center'
+    foto:{
+        width:'100%',
+        height:'80%'
     }
-});
+
+})

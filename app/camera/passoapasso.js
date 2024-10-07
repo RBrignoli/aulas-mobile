@@ -1,3 +1,4 @@
+// npm install expo-camera
 // importar os componentes do expo-camera, importar os hooks, importar os componentes basicos
 // criar a funçao principal
 // criar a estilizaçao

@@ -1,6 +1,8 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
+import * as Linking from 'expo-linking';
+
 
 export default function App() {
     const [permission, requestPermission] = useCameraPermissions();
@@ -24,6 +26,11 @@ export default function App() {
 
     const printCode = async (data) => {
         setCode(data)
+        if (Linking.canOpenURL(data)){
+            Linking.openURL(data) 
+        } else {
+            setCode('nao é uma URL')
+        }
     }
 
     return (
