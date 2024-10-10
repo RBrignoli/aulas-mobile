@@ -4,16 +4,15 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 import * as Linking from 'expo-linking';
 
 
+
 export default function App() {
     const [permission, requestPermission] = useCameraPermissions();
     const [code, setCode] = useState(null);
-
 
     if (!permission) {
         // Camera permissions are still loading.
         return <View />;
     }
-
     if (!permission.granted) {
         // Camera permissions are not granted yet.
         return (
@@ -23,28 +22,20 @@ export default function App() {
             </View>
         );
     }
-
-    const printCode = async (data) => {
-        setCode(data)
-        if (Linking.canOpenURL(data)){
-            Linking.openURL(data) 
-        } else {
-            setCode('nao é uma URL')
-        }
-    }
+    
 
     return (
         <View style={styles.container}>
-            {code ? (
-                <Text >{code.data}</Text>
-            ) :
-                <CameraView style={styles.camera} facing='back' barcodeScannerSettings={{
-                    barcodeTypes: ["qr"],
-                }}
-                    onBarcodeScanned={(data) => printCode(data)}>
-
+                <CameraView
+                    style={styles.camera}
+                    facing='back'
+                    barcodeScannerSettings={{
+                        barcodeTypes: ["qr"],
+                    }}
+                    onBarcodeScanned={(data) => setCode(data)}>
+                
                 </CameraView>
-            }
+
         </View>
     );
 }
@@ -80,5 +71,8 @@ const styles = StyleSheet.create({
     saveContainer: {
         position: 'absolute',
         justifyContent: 'center'
+    },
+    icon:{
+
     }
 });

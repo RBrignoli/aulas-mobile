@@ -2,6 +2,10 @@ import { useState, useRef } from 'react'
 import { View, StyleSheet, Text, Image, Button } from 'react-native'
 import { CameraView, useCameraPermissions } from 'expo-camera'
 import * as MediaLibrary from 'expo-media-library'
+import Ionicons from '@expo/vector-icons/Ionicons'
+import * as Linking from 'expo-linking'
+
+
 
 export default function Camera() {
     const [permissao, pedirPermissao] = useCameraPermissions()
@@ -9,6 +13,9 @@ export default function Camera() {
     const [foto, setFoto] = useState(null)
     const cameraRef = useRef(null)
     const [lado, setLado] = useState('back')
+    const [code, setCode] = useState(null);
+    const [modo, setModo] = useState('picture')
+
 
     if (!permissao) {
         return <View></View>
@@ -29,15 +36,27 @@ export default function Camera() {
         setFoto(foto_base64)
     }
     const trocaCamera = () => {
-        setLado(lado == 'back' ? 'front' : 'back' )
+        setLado(lado == 'back' ? 'front' : 'back')
+    }
+    const trocaModo = () => {
+        setModo(lado == 'picture' ? 'record' : 'picture')
     }
     const salvarFoto = async () => {
-        if(permissionResponse.status !== 'granted'){
+        if (permissionResponse.status !== 'granted') {
             await requestPermission();
         }
         MediaLibrary.saveToLibraryAsync(foto.uri)
         setFoto(null)
-        
+
+    }
+    const navegarQR = async (data) => {
+        console.log(data)
+        if (Linking.canOpenURL(data)) {
+            console.log('url')
+            Linking.openURL(data)
+        } else {
+            alert('nao é uma URL')
+        }
     }
 
 
@@ -46,12 +65,29 @@ export default function Camera() {
             {foto ?
                 <View>
                     <Image source={{ uri: foto.uri }} style={styles.foto} />
-                    <Button title='Descartar foto' onPress={() => setFoto(null)}/>
-                    <Button title='Salvar Foto' onPress={salvarFoto}/>
+                    <Button title='Descartar foto' onPress={() => setFoto(null)} />
+                    <Button title='Salvar Foto' onPress={salvarFoto} />
                 </View> :
-                <CameraView facing={lado} style={styles.camera} ref={cameraRef}>
-                    <Button title='Tirar Foto' onPress={tirarFoto} />
-                    <Button title='Troca camera' onPress={trocaCamera} />
+                <CameraView
+                    facing={lado}
+                    mode={modo}
+                    style={styles.camera}
+                    ref={cameraRef}
+                    barcodeScannerSettings={{
+                        barcodeTypes: ["qr"],
+                    }}
+                    onBarcodeScanned={(data) => setCode(data)}
+                >
+                    {
+                    code?
+                    <View style={styles.icon}>
+                        <Ionicons name="qr-code" size={32} color="white" onPress={navegarQR} style={styles.iconQR} />
+                    </View>:
+                    <></>
+                }
+                <View style={styles.icon}>
+                        <Ionicons name="camera" size={64} color="white" onPress={salvarFoto} style={styles.iconCamera} />
+                </View>
                 </CameraView>
             }
         </View>
@@ -67,11 +103,23 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     camera: {
-        flex: 1
+        flex: 1,
+        justifyContent:'flex-end'
     },
-    foto:{
-        width:'100%',
-        height:'80%'
+    foto: {
+        width: '100%',
+        height: '80%'
+    },
+    iconCamera:{
+        alignSelf:'center',
+        paddingBottom:64
+    },
+    iconView:{
+        
+    },
+    iconQR:{
+        alignSelf:'flex-end',
+        margin:32
     }
 
 })
