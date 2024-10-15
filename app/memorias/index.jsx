@@ -4,32 +4,32 @@ import { Link } from 'expo-router'
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-
-
 const getStoredMemories = async () => {
-    try {
-      const value = await AsyncStorage.getItem('lista_memorias');
-      if (value !== null) {
-        return value
-      }
-      console.log('memorias vazias')
-      return []
-    } catch (e) {
-    console.log('erro encontrando memorias', e)
-      return []
+  try {
+    const value = await AsyncStorage.getItem('lista_memorias');
+    if (value !== null) {
+      // console.log(value)
+      return value
     }
-  };
+    console.log('memorias vazias')
+    return []
+  } catch (e) {
+    console.log('erro encontrando memorias', e)
+    return []
+  }
+};
 
 const TelaViagens = () => {
   const [memorias, setMemorias] = useState([])
 
   useEffect(() => {
-    let result = getStoredMemories()
-    if (result){
-        setMemorias(JSON.stringify(result))
+    getStoredMemories().then((data) => {
+      if(data){
+        setMemorias(JSON.parse(data))
+      }
     }
-}, [])
+    )
+  }, [])
 
 
   return (
@@ -38,6 +38,7 @@ const TelaViagens = () => {
       <Link href='/memorias/add-memoria'>
         <Text>Adicionar uma nova memória</Text>
       </Link>
+      {memorias ?
         <FlatList
           data={memorias}
           renderItem={({ item }) => (
@@ -49,6 +50,7 @@ const TelaViagens = () => {
             </View>
           )}
         />
+        : <></>}
     </View>
   );
 };

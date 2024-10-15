@@ -25,7 +25,7 @@ export default function TelaInicio() {
             <Link href='/sobre-mim'>
                 <Text style={styles.link}>Exercicio App sobre mim</Text>
             </Link>
-            <Link href='/fotografia'>
+            <Link href='/galeria'>
                 <Text style={styles.link}>Exercicio sobre Hardware: Galeria</Text>
             </Link>
             <Link href='/camera'>

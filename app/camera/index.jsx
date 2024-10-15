@@ -7,6 +7,7 @@ import * as Linking from 'expo-linking'
 
 
 
+
 export default function Camera() {
     const [permissao, pedirPermissao] = useCameraPermissions()
     const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
